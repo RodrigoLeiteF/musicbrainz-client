@@ -4,6 +4,8 @@
   "description": "An up-to-date MusicBrainz client",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "homepage": "https://github.com/RodrigoLeiteF/musicbrainz-client",
+  "bugs": "https://github.com/RodrigoLeiteF/musicbrainz-client/issues",
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register test/**/*.spec.ts"
