@@ -31,6 +31,10 @@ export interface GetRecordingOptions {
   include?: ("artist-credits" | "isrcs")[];
 }
 
+export interface SearchOptions {
+  query: string;
+}
+
 export interface Alias {
   name: string;
   ended: boolean;

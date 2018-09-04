@@ -1,8 +1,9 @@
-import { InitOptions, GetArtistOptions, GetRecordingOptions, GetReleaseOptions, GetOptions } from "./types";
+import { InitOptions, GetArtistOptions, GetRecordingOptions, GetReleaseOptions, GetOptions, SearchOptions } from "./types";
 import fetch from "node-fetch";
 import { Artist } from "./types/artist";
 import { Recording } from "./types/recording";
 import { Release } from "./types/release";
+import { ArtistSearchOptions, ArtistSearch, RecordingSearch } from "./types/search";
 
 export default class MusicBrainz {
   public userAgent: string;
@@ -12,7 +13,7 @@ export default class MusicBrainz {
     this.userAgent = userAgent;
   }
 
-  private _formatUrl(path: string, parameters?: GetOptions) {
+  private _formatUrl(path: string, parameters?: any) {
     let finalUrl = this.baseUrl + path + "?";
 
     // Append where parameters
@@ -20,6 +21,11 @@ export default class MusicBrainz {
       Object.entries(parameters.where).forEach(([key, value]) => {
         finalUrl += `&${key}=${value}`;
       });
+    }
+
+    // Append query parameters
+    if (parameters && parameters.query) {
+      finalUrl += `&query=${parameters.query}`
     }
 
     // Append include parameters
@@ -31,7 +37,7 @@ export default class MusicBrainz {
     return finalUrl;
   }
 
-  private _executeRequest(path: string, parameters?: GetOptions, method = "GET", body?: any) {
+  private _executeRequest(path: string, parameters?: any, method = "GET", body?: any) {
     return fetch(this._formatUrl(path, parameters), {
       method,
       body,
@@ -77,6 +83,28 @@ export default class MusicBrainz {
    */
   async getRelease(id: string, options?: GetReleaseOptions): Promise<Release> {
     const response = await this._executeRequest("release/" + id, options);
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw response.status;
+    }
+  }
+
+  async searchArtist(query: string): Promise<ArtistSearch> {
+    const response = await this._executeRequest(`artist/`, {
+      query
+    });
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw response.status;
+    }
+  }
+
+  async searchRecording(query: string): Promise<RecordingSearch> {
+    const response = await this._executeRequest(`recording/`, {
+      query
+    });
     if (response.status === 200) {
       return response.json();
     } else {

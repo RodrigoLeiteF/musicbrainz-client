@@ -1,6 +1,7 @@
 import MusicBrainz from "../src";
 import { expect } from 'chai';
 import 'mocha';
+import { isRegExp } from "util";
 
 describe("MusicBrainz", () => {
 
@@ -69,6 +70,28 @@ describe("MusicBrainz", () => {
       });
 
     });
+  });
+
+  describe("Search methods", () => {
+
+    const nb = new MusicBrainz("TestApp/1.0");
+
+    it("returns the correct artist", async () => {
+      const result = await nb.searchArtist('artist:"Charli XCX"');
+
+      expect(result.count).to.equal(1);
+      expect(result.offset).to.equal(0);
+      expect(result.artists).to.be.of.length(1);
+    });
+
+    it("returns the correct recording", async () => {
+      const result = await nb.searchRecording('"Delicious" AND artist:"Charli XCX"');
+
+      expect(result.count).to.equal(1);
+      expect(result.offset).to.equal(0);
+      expect(result.recordings).to.be.of.length(1);
+    });
+
   });
 
 });
