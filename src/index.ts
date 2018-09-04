@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { Artist } from "./types/artist";
 import { Recording } from "./types/recording";
 import { Release } from "./types/release";
-import { ArtistSearch, RecordingSearch } from "./types/search";
+import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/search";
 
 export default class MusicBrainz {
   public userAgent: string;
@@ -103,6 +103,17 @@ export default class MusicBrainz {
 
   async searchRecording(query: string): Promise<RecordingSearch> {
     const response = await this._executeRequest(`recording/`, {
+      query
+    });
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw response.status;
+    }
+  }
+
+  async searchRelease(query: string): Promise<ReleaseSearch> {
+    const response = await this._executeRequest(`release/`, {
       query
     });
     if (response.status === 200) {

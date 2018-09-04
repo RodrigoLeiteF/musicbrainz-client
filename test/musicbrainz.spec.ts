@@ -92,6 +92,14 @@ describe("MusicBrainz", () => {
       expect(result.recordings).to.be.of.length(1);
     });
 
+    it("returns the correct release", async () => {
+      const result = await nb.searchRelease('"True Romance" AND artist:"Charli XCX"');
+
+      expect(result.count).to.equal(4);
+      expect(result.offset).to.equal(0);
+      expect(result.releases).to.be.of.length(4);
+    });
+
   });
 
 });
