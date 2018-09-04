@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { Artist } from "./types/artist";
 import { Recording } from "./types/recording";
 import { Release } from "./types/release";
-import { ArtistSearchOptions, ArtistSearch, RecordingSearch } from "./types/search";
+import { ArtistSearch, RecordingSearch } from "./types/search";
 
 export default class MusicBrainz {
   public userAgent: string;

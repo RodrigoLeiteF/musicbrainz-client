@@ -1,5 +1,5 @@
-import { Artist } from "../../lib/types/artist";
-import { Recording } from "../../lib/types/release";
+import { Artist } from "./Artist";
+import { Recording } from "./Recording";
 
 export interface BaseSearch {
   created: string;
@@ -7,13 +7,8 @@ export interface BaseSearch {
   offset: number;
 }
 
-export interface ArtistSearch extends BaseSearch {
-  artists: Artist[];
-}
-
-export interface RecordingSearch extends BaseSearch {
-  recordings: Recording[];
-}
+export type ArtistSearch = BaseSearch & { artists: Artist[]; }
+export type RecordingSearch = BaseSearch & { recordings: Recording[]; }
 
 export interface ArtistSearchOptions {
   /**
