@@ -27,9 +27,11 @@ interface Media {
 }
 
 export interface ReleaseExtended {
-  artists: Artist[];
+  "artist-credits": Artist[];
   tags: Tag[];
   media: Media[];
+  recordings: Recording[];
+  isrcs: string[];
 }
 
 interface ReleaseBase {
