@@ -1,7 +1,7 @@
-import { InitOptions, GetRecordingOptions, GetReleaseOptions } from "./types";
+import { InitOptions, GetReleaseOptions } from "./types";
 import fetch from "node-fetch";
 import { Artist, ArtistExtended, ArtistInclude } from "./types/Artist";
-import { Recording } from "./types/Recording";
+import { Recording, RecordingExtended, RecordingInclude } from "./types/Recording";
 import { Release } from "./types/Release";
 import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/Search";
 
@@ -70,12 +70,16 @@ export default class MusicBrainz {
    * 
    * @param id The recording's unique MusicBrainz ID
    */
-  async getRecording(id: string, options?: GetRecordingOptions): Promise<Recording> {
-    const response = await this._executeRequest("recording/" + id, options);
+  async getRecording<T extends keyof RecordingExtended>(id: string, include?: RecordingInclude): Promise<Recording<T>>;
+  async getRecording(id: string, include?: string[]): Promise<Recording & { [P in keyof RecordingExtended]?: RecordingExtended[P] }>;
+  async getRecording(id: string, include?: string[]) {
+    const response = await this._executeRequest("recording/" + id, { include });
+
     if (response.status === 200) {
-      return response.json();
+      const data = await response.json();
+      return data;
     } else {
-      throw response.status;
+      throw new Error(response.statusText);
     }
   }
 

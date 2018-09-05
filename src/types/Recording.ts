@@ -1,8 +1,8 @@
 import { ArtistCredit } from "./Artist";
 import { Release } from "./Release";
 
-interface RecordingExtended {
-  artists: ArtistCredit[];
+export interface RecordingExtended {
+  "artist-credit": ArtistCredit[];
   releases: Release[];
   isrcs: string[];
 }
@@ -16,3 +16,5 @@ interface RecordingBase {
 }
 
 export type Recording<T extends keyof RecordingExtended = never> = RecordingBase & Pick<RecordingExtended, Extract<keyof RecordingExtended, T>>;
+
+export type RecordingInclude = ("artist-credits" | "isrcs")[];

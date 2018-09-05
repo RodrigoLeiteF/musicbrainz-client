@@ -11,15 +11,6 @@ export interface GetReleaseOptions {
   include?: ("artist-credits" | "labels" | "recordings" | "release-groups" | "media" | "discids" | "isrcs")[];
 }
 
-export type RecordingLinkedEntities = "artist" | "collection" | "release";
-type RecordingWhereOptions = {
-  [K in RecordingLinkedEntities]?: string
-}
-export interface GetRecordingOptions {
-  where?: RecordingWhereOptions;
-  include?: ("artist-credits" | "isrcs")[];
-}
-
 export interface SearchOptions {
   query: string;
 }
