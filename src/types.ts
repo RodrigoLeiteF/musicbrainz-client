@@ -2,17 +2,6 @@ export interface InitOptions {
 
 }
 
-export type GetOptions = GetArtistOptions | GetRecordingOptions | GetReleaseOptions;
-
-export type ArtistLinkedEntities = "area" | "collection" | "recording" | "release" | "release-group" | "work";
-type ArtistWhereOptions = {
-  [K in ArtistLinkedEntities]?: string;
-}
-export interface GetArtistOptions {
-  where?: ArtistWhereOptions;
-  include?: ["aliases"];
-}
-
 export type ReleaseLinkedEntities = "area" | "artist" | "collection" | "label" | "track" | "track_artist" | "recording" | "release-group";
 type ReleaseWhereOptions = {
   [K in ReleaseLinkedEntities]?: string;
