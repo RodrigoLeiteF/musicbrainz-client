@@ -1,6 +1,8 @@
 import { Tag } from "./Tag";
 import { Area } from "./Area";
 import { Alias } from "../types";
+import { Recording } from "./Recording";
+import { Release } from "./Release";
 
 export interface ArtistExtended {
   id: string;
@@ -12,8 +14,9 @@ export interface ArtistExtended {
   type: "Person" | "Group" | "Orchestra" | "Choir" | "Character" | "Other";
   gender: "male" | "female" | "other";
   "gender-id": string;
-  releases: string[];
   aliases: Alias[];
+  recordings: Recording[];
+  releases: Release[];
 }
 
 interface ArtistBase {
