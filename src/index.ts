@@ -1,8 +1,8 @@
-import { InitOptions, GetReleaseOptions } from "./types";
+import { InitOptions } from "./types";
 import fetch from "node-fetch";
 import { Artist, ArtistExtended, ArtistInclude } from "./types/Artist";
 import { Recording, RecordingExtended, RecordingInclude } from "./types/Recording";
-import { Release } from "./types/Release";
+import { Release, ReleaseExtended, ReleaseInclude } from "./types/Release";
 import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/Search";
 
 export default class MusicBrainz {
@@ -88,8 +88,10 @@ export default class MusicBrainz {
    * 
    * @param id The release's unique MusicBrainz ID
    */
-  async getRelease(id: string, options?: GetReleaseOptions): Promise<Release> {
-    const response = await this._executeRequest("release/" + id, options);
+  async getRelease<T extends keyof ReleaseExtended>(id: string, include?: ReleaseInclude): Promise<Release<T>>;
+  async getRelease(id: string, include?: string[]): Promise<Recording & { [P in keyof ReleaseExtended]?: ReleaseExtended[P] }>;
+  async getRelease(id: string, include?: string[]) {
+    const response = await this._executeRequest("release/" + id, { include });
     if (response.status === 200) {
       return response.json();
     } else {

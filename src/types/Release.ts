@@ -26,7 +26,7 @@ interface Media {
   tracks: Track[];
 }
 
-interface ReleaseExtended {
+export interface ReleaseExtended {
   artists: Artist[];
   tags: Tag[];
   media: Media[];
@@ -48,3 +48,5 @@ interface ReleaseBase {
 }
 
 export type Release<T extends keyof ReleaseExtended = never> = ReleaseBase & Pick<ReleaseExtended, Extract<keyof ReleaseExtended, T>>;
+
+export type ReleaseInclude = ("artist-credits" | "labels" | "recordings" | "release-groups" | "media" | "discids" | "isrcs")[];

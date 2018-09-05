@@ -60,11 +60,9 @@ describe("MusicBrainz", () => {
       });
 
       it("queries the correct release with the correct fields", async () => {
-        const result = await nb.getRelease(releaseId, {
-          include: ["recordings"]
-        });
+        const result = await nb.getRelease(releaseId, ["recordings"]);
         expect(result.id).to.equal(releaseId);
-        // expect(result.media).to.not.be.undefined;
+        expect(result.media).to.not.be.undefined;
       });
 
     });
