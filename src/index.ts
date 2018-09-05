@@ -1,6 +1,6 @@
-import { InitOptions, GetRecordingOptions, GetReleaseOptions, ArtistInclude } from "./types";
+import { InitOptions, GetRecordingOptions, GetReleaseOptions } from "./types";
 import fetch from "node-fetch";
-import { Artist, ArtistExtended } from "./types/Artist";
+import { Artist, ArtistExtended, ArtistInclude } from "./types/Artist";
 import { Recording } from "./types/Recording";
 import { Release } from "./types/Release";
 import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/Search";
