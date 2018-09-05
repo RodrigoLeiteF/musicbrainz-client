@@ -1,9 +1,9 @@
-import { InitOptions, GetArtistOptions, GetRecordingOptions, GetReleaseOptions, GetOptions, SearchOptions } from "./types";
+import { InitOptions, GetRecordingOptions, GetReleaseOptions, ArtistInclude } from "./types";
 import fetch from "node-fetch";
-import { Artist } from "./types/artist";
-import { Recording } from "./types/recording";
-import { Release } from "./types/release";
-import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/search";
+import { Artist, ArtistExtended } from "./types/Artist";
+import { Recording } from "./types/Recording";
+import { Release } from "./types/Release";
+import { ArtistSearch, RecordingSearch, ReleaseSearch } from "./types/Search";
 
 export default class MusicBrainz {
   public userAgent: string;
@@ -52,13 +52,16 @@ export default class MusicBrainz {
    * 
    * @param id The artist's unique MusicBrainz ID
    */
-  async getArtist(id: string, options?: GetArtistOptions): Promise<Artist> {
-    const response = await this._executeRequest("artist/" + id, options);
+  async getArtist<T extends keyof ArtistExtended>(id: string, include?: ArtistInclude): Promise<Artist<T>>;
+  async getArtist(id: string, include?: string[]): Promise<Artist & { [P in keyof ArtistExtended]?: ArtistExtended[P] }>;
+  async getArtist(id: string, include?: string[]) {
+    const response = await this._executeRequest("artist/" + id, { include });
 
     if (response.status === 200) {
-      return await response.json();
+      const data = await response.json();
+      return data;
     } else {
-      throw await response.status;
+      throw new Error(response.statusText);
     }
   }
 
